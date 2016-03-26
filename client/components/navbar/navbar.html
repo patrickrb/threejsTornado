@@ -1,0 +1,43 @@
+
+      <!-- Static navbar -->
+      <nav id="edNavBar" class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">ThreeJS Tornado</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="/">Home</a></li>
+              <li class="dropdown">
+                <a uib-dropdown-toggle class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                <ul uib-dropdown-menu class="dropdown-menu">
+                  <li><a>item</a></li>
+                  <li><a>item</a></li>
+                  <li><a>item</a></li>
+                </ul>
+              </li>
+                <li><a>Search</a></li>
+                <li id="searchSystemListItem">
+                  <input type="text" class="form-control"  class="form-control">
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right"  ng-if="isLoggedIn">
+                <li><img gravatar-src-once="user.email"></li>
+                <li class="dropdown">
+                  <a uib-dropdown-toggle class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.name}}<span class="caret"></span></a>
+                  <ul uib-dropdown-menu class="dropdown-menu">
+                    <li ng-click="logout()"><a href="">Logout</a></li>
+                  </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" ng-if="!isLoggedIn">
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>
