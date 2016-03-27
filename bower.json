@@ -10,7 +10,6 @@
     "angular-sanitize": "~1.5.0",
     "font-awesome": "fontawesome#~4.5.0",
     "lodash": "~4.5.1",
-    "angular-socket-io": "~0.7.0",
     "angular-ui-router": "~0.2.15",
     "angular-validation-match": "~1.7.1",
     "angular-scenario": "~1.5.0",
@@ -21,7 +20,6 @@
     "bootstrap": "~3.3.6",
     "angular-bootstrap": "~1.1.0",
     "bootswatch": "3.3.6+1",
-    "angular-gravatar": "~0.4.1",
     "three.js": "threejs#*",
     "animate.css": "~3.5.1"
   },
