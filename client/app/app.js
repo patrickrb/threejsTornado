@@ -7,7 +7,8 @@ angular.module('threeTornado', [
   'ui.router',
   'validation.match',
   'ui.bootstrap',
-  'ngMaterial'
+  'ngMaterial',
+  'rzModule'
 ])
   .config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider
