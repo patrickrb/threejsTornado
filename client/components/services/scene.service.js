@@ -4,7 +4,7 @@ angular.module('threeTornado')
   .service('sceneService', function () {
     class SceneService {
             constructor() {
-              this.cubeCount = 10000;
+              this.cubeCount = 5000;
               this.target = new THREE.Object3D();
               this.tornadoObject = new THREE.Object3D();
               this.cubeGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
