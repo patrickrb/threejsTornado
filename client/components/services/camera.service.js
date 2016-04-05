@@ -4,7 +4,7 @@ angular.module('threeTornado')
   .service('cameraService', function () {
     class CameraService {
             constructor() {
-              this.camera = {}
+              this.camera = {};
             }
 
             getCamera() {
@@ -13,7 +13,7 @@ angular.module('threeTornado')
 
             addCamera(width, height) {
               this.camera = new THREE.PerspectiveCamera(90, width / height, 1, 10000);
-              this.camera.position.set(0, -20, 150);
+              this.camera.position.set(0, 120, 150);
             }
         }
         return new CameraService();
