@@ -16,6 +16,7 @@
   "node"          : true,
   "globals": {
       "angular": true,
+      "_": false,
       "THREE": false,
       "three": false,
       "TWEEN": false

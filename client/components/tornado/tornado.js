@@ -18,30 +18,31 @@ angular.module('threeTornado')
                 animate();
 
                 function init() {
-                    cameraService.addCamera(windowWidth, windowHeight);  //add the camera to the scene
-                    scene = new THREE.Scene();  //init the scene
+                    //init the scene
+                    scene = new THREE.Scene();
 
+                    //add the camera to the scene
+                    cameraService.addCamera(windowWidth, windowHeight);
+
+                    //set renderer options
                     renderer = new THREE.WebGLRenderer({ antialias: true }); //init the renderer
-
                     renderer.shadowMap.enabled = true;
                     renderer.shadowMapSoft = true;
                     renderer.physicallyBasedShading = true;
-
                     renderer.setSize(windowWidth, windowHeight);
                     renderer.sortObjects = true;
 
+                    //add renderer to the DOM
                     elem[0].appendChild(renderer.domElement);  //attach the renderer to the tornado directive
 
-
-                    scene.width = sceneService.getWorldFieldOfView(35, 500, windowWidth, windowHeight).width;
-                    scene.height = sceneService.getWorldFieldOfView(35, 500, windowWidth, windowHeight).height;
-                    scene.maxSize = sceneService.getWorldFieldOfView(35, 5000, windowWidth, windowHeight).maxSize;
-
-                    // Events
+                    // Handle resize events
                     window.addEventListener('resize', onWindowResize, false);
 
-                    controlsService.addControls(cameraService.getCamera(), elem[0].childNodes[0]); //add controls to the scene
-                    sceneService.createScene(scene, tornadoOptionsService.getOptions());  //create the tornado and add it to the scene
+                    //add orbit controls to the scene
+                    controlsService.addControls(cameraService.getCamera(), elem[0].childNodes[0]);
+
+                    //create the tornado and add it to the scene
+                    sceneService.createScene(scene, tornadoOptionsService.getOptions());
                 }
 
                 function onWindowResize(event) {
@@ -59,16 +60,17 @@ angular.module('threeTornado')
                     delta = clock.getDelta();
                     time += delta;
 
-                    controlsService.getControls().update(); //update controls
+                    //update controls
+                    controlsService.getControls().update();
 
-                    animationService.updateVertex(sceneService.getTornadoObject(), delta, tornadoOptionsService.getOptions()); //rotate cubes
+                    //animate the cubes in the tornado
+                    animationService.updateVertex(sceneService.getTornadoObject(), delta);
 
-                    sceneService.getTornadoObject().rotation.y += tornadoOptionsService.getOptions().speedRot;  //rotate tornado object for added effect
-
-                    cameraService.getCamera().lookAt(sceneService.getTarget().position);  //keep camera focused on the torando
+                    //rotate the tornado object for added effect
+                    sceneService.getTornadoObject().rotation.y += tornadoOptionsService.getOptions().speedRot;
 
                     renderer.clear();
-                    renderer.render(scene, cameraService.getCamera()); 
+                    renderer.render(scene, cameraService.getCamera());
                 }
             }
         };

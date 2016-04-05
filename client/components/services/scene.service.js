@@ -1,71 +1,86 @@
 'use strict';
 
 angular.module('threeTornado')
-  .service('sceneService', function () {
+  .service('sceneService', function (utilsService, tornadoOptionsService) {
     class SceneService {
             constructor() {
               this.cubeCount = 5000;
-              this.target = new THREE.Object3D();
               this.tornadoObject = new THREE.Object3D();
               this.cubeGeometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
               this.cubeMaterial = new THREE.MeshBasicMaterial({color: 0x00ff00});
             }
 
-            randNum(min, max) {
-                return Math.random() * (max - min) + min;
-            }
-
-            getTarget(){
-              return this.target;
-            }
 
             getTornadoObject() {
               return this.tornadoObject;
             }
 
-            createScene(scene, tornadoOptions) {
-                var ambientLight = new THREE.AmbientLight(0x222222);
-                scene.add(ambientLight);
-
+            createScene(scene) {
+                //add cubes to the tornado object
                 for (var i = 0; i < this.cubeCount; i++) {
-                    var cube = new THREE.Mesh(this.cubeGeometry, this.cubeMaterial);
-                    cube.velocity = new THREE.Vector3(
-                        this.randNum(1000, 10000) / 20000,
-                        this.randNum(1000, 10000) / 20000,
-                        this.randNum(1000, 10000) / 20000
-                    );
-
-                    cube.time = this.randNum(0, 10);
-
-                    var x = this.randNum(tornadoOptions.width / 2, tornadoOptions.width);
-                    var y = Math.random() * tornadoOptions.height;
-                    var z = this.randNum(tornadoOptions.width / 2, tornadoOptions.width);
-                    cube.position.set(x, y, z);
-                    cube.origin = {
-                        x: x,
-                        y: y,
-                        z: z
-                    };
-                    this.tornadoObject.add(cube);
+                    this.addCube();
                 }
+
+                //add tornado object to the scene
                 scene.add(this.tornadoObject);
-                this.target.position.y = 150;
             }
 
-            getWorldFieldOfView(fov, distance, windowWidth, windowHeight) {
-                var vFOV = fov * Math.PI / 180; // convert vertical fov to radians
-                var height = 2 * Math.tan(vFOV / 2) * distance; // visible height
+            setCubeCount(newCubeCount){
+              var i = 0;
+              var cubeDiff = this.cubeCount - newCubeCount;
+              this.cubeCount = newCubeCount;
 
-                var aspect = windowWidth / windowHeight;
-                var width = height * aspect;
-
-                return {
-                    width: width,
-                    height: height,
-                    maxSize: width > height ? width : height,
-                    minSize: width > height ? height : width
-                };
+              if(cubeDiff > 0 ){
+                for(i = 0; i < cubeDiff; i++){
+                  this.removeCube();
+                }
+              }
+              else{
+                var inverseCubeDiff = -1 * (cubeDiff);
+                for(i = 0; i < inverseCubeDiff; i++){
+                  this.addCube();
+                }
+              }
             }
+
+            removeCube(){
+              var removedCube = _.sample(this.tornadoObject.children);
+              this.tornadoObject.remove(removedCube);
+            }
+
+            addCube(){
+              //create new cube
+              var cube = new THREE.Mesh(this.cubeGeometry, this.cubeMaterial);
+
+              //set a random velocity
+              cube.velocity = new THREE.Vector3(
+                  utilsService.randNum(5000, 10000) / 20000,
+                  utilsService.randNum(100, 5000) / 20000,
+                  utilsService.randNum(1000, 10000) / 20000
+              );
+
+              //set a random time on the cube
+              cube.time = utilsService.randNum(0, 10);
+
+              //pick random xyz coords
+              var x = utilsService.randNum(tornadoOptionsService.getOptions().width / 2, tornadoOptionsService.getOptions().width);
+              var y = Math.random() * tornadoOptionsService.getOptions().height;
+              var z = utilsService.randNum(tornadoOptionsService.getOptions().width / 2, tornadoOptionsService.getOptions().width);
+
+              //set posiion
+              cube.position.set(x, y, z);
+
+              //remember its origin
+              cube.origin = {
+                  x: x,
+                  y: y,
+                  z: z
+              };
+
+              //add the cube to the tornado object
+              this.tornadoObject.add(cube);
+            }
+
         }
         return new SceneService();
   });
