@@ -4,7 +4,7 @@
 module.exports = {
   options: {
     // This should be the name of your apps angular module
-    module: 'threejsTornado',
+    module: 'threeTornado',
     htmlmin: {
       collapseBooleanAttributes: true,
       collapseWhitespace: true,
