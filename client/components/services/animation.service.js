@@ -1,44 +1,40 @@
 'use strict';
 
 angular.module('threeTornado')
-  .service('animationService', function () {
+  .service('animationService', function (utilsService, tornadoOptionsService) {
     class AnimationService {
             constructor() {
+              this.globalSpeed = 5;
             }
 
-            clampNum(num, min, max) {
-                return Math.min(Math.max(num, min), max);
+            setSpeed(newSpeed){
+              this.globalSpeed = newSpeed;
             }
 
-            normalize(value, length) {
-                return value / length;
-            }
+            updateVertex(tornadoObject, delta) {
+                tornadoObject.children.forEach(function(cube) {
+                    //update the cubes time
+                    cube.time += delta;
 
-            distance(p1x, p1y, p2x, p2y) {
-                return Math.sqrt(Math.pow((p2x - p1x), 2) + Math.pow((p2y - p1y), 2));
-            }
-
-            updateVertex(tornadoObject, delta, tornadoOptions) {
-                tornadoObject.children.forEach(function(mesh) {
-                    mesh.time += delta;
-
-                    mesh.y += mesh.velocity.y;
-
-                    if (mesh.position.y > tornadoOptions.height) {
-                        mesh.position.y = 0;
+                    //move the cube to the bottom of the tornado when reaching max height
+                    if (cube.position.y > tornadoOptionsService.getOptions().height) {
+                        cube.position.y = 0;
+                        cube.velocity.x = utilsService.randNum(5000, 10000) / 20000;
                     }
 
-                    mesh.progress = this.clampNum(mesh.position.y / tornadoOptions.height, 0, 1);
+                    //funnel the cubes
+                    cube.progress = (cube.position.y / tornadoOptionsService.getOptions().height);
+                    var speedX = Math.cos(cube.time * cube.velocity.x  * this.globalSpeed);
+                    var speedZ = Math.sin(cube.time * cube.velocity.x  * this.globalSpeed);
 
-                    var dist = this.distance(0, mesh.position.y, 0, tornadoOptions.offsetPos);
-                    var norm = 1 - this.normalize(dist, tornadoOptions.height);
-                    mesh.offset = tornadoOptions.offsetVal * norm;
+                    //rotate the cube for chaos
+                    cube.rotation.z +=  this.globalSpeed * 0.1;
+                    cube.rotation.x +=  this.globalSpeed * 0.1;
 
-                    var speedX = Math.cos(mesh.time * mesh.velocity.x) + mesh.offset;
-                    var speedZ = Math.sin(mesh.time * mesh.velocity.x) + mesh.offset;
-
-                    mesh.position.x = -(speedX * tornadoOptions.minWidth + mesh.progress * speedX * mesh.origin.x);
-                    mesh.position.z = speedZ * tornadoOptions.minWidth + mesh.progress * speedZ * mesh.origin.x;
+                    //update cube position
+                    cube.position.x = -(cube.progress * speedX * cube.origin.x);
+                    cube.position.y += cube.velocity.y + cube.progress;
+                    cube.position.z = cube.progress * speedZ * cube.origin.x;
                 }.bind(this));
             }
         }

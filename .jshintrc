@@ -1,5 +1,24 @@
-"globals": {
-    "THREE": false,
-    "three": false,
-    "TWEEN": false
+{
+  "maxerr"        : 150,
+  "curly"         : true,
+  "eqeqeq"        : true,
+  "freeze"        : true,
+  "lastsemic"     : true,
+  "undef"         : true,
+  "unused"        : false,
+  "strict"        : false,
+  "esversion"     : 6,
+  "globalstrict"  : true,
+  "browser"       : true,
+  "browserify"    : true,
+  "devel"         : true,
+  "jquery"        : true,
+  "node"          : true,
+  "globals": {
+      "angular": true,
+      "_": false,
+      "THREE": false,
+      "three": false,
+      "TWEEN": false
+    }
 }

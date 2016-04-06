@@ -6,11 +6,9 @@ angular.module('threeTornado')
             constructor() {
               this.tornadoOptions = {
                   speedRot: 0.002,
-                  width: 80,
+                  width: 100,
                   height: 315,
-                  minWidth: 5,
-                  offsetPos: 315,
-                  offsetVal: 1.5
+                  minWidth: 5
               };
             }
 
