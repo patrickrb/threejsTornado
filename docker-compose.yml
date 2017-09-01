@@ -1,7 +1,7 @@
 version: '3'
 services:
-  flappy:
+  tornado:
     build: .
-    image: registry.gitlab.com/patrickrb/threejstornado 
+    image: registry.gitlab.com/patrickrb/threejstornado
     ports:
       - "9000:9000"
